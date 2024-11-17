@@ -1,14 +1,12 @@
 import { Router } from 'express'
-
 import * as db from '../db/location.ts'
 
 const router = Router()
 
-router.get('/:id', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const { id } = req.params
-    console.log(id)
-    const location = await db.getLocationById(id)
+    const location = await db.getLocationTemperatureData()
+    console.log(location)
 
     res.json(location)
   } catch (error) {
@@ -16,13 +14,5 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' })
   }
 })
-
-
-router.get('/:id/:date', async (req, res) => {
-  try {
-    const {id} = req.params
-    
-  }
-} )
 
 export default router

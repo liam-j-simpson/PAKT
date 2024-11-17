@@ -1,6 +1,6 @@
 export async function up(knex) {
   return knex.schema.createTable('location', (table) => {
-    table.increments('id')
+    table.increments('id').primary()
     table.string('location_name')
   })
 }
