@@ -28,6 +28,12 @@ footer {
 
 }
 
+ul {
+  list-style-type: none;
+  display: flex;
+}
+
+
 .h1-modak {
   font-family: "Modak", system-ui;
   color: #495A4F;
@@ -77,6 +83,7 @@ p {
   font-weight: 600;
   font-style: normal;
   padding: 1rem;
+  margin: 0.2rem;
 
 
 }
@@ -87,6 +94,13 @@ flex-direction: row;
 justify-content: space-between;
 
 }
+
+.temp-duration-container{
+  display: flex; 
+  flex-direction: column;
+
+  
+  }
 
 
 .section-left {

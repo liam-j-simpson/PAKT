@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { locationsArray } from '../locations.ts'
+import { activitiesArray } from '../activities.ts'
+import { clothing } from '../clothing.ts'
+import { food } from './food.ts'
+import { gear } from '../gear.ts'
 
 function App() {
   //STATE
@@ -9,30 +14,6 @@ function App() {
 
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-
-  //DERIVED STATES
-  const gear = [
-    { name: 'bike', category: 'bikepacking' },
-    { name: 'pack', category: 'hiking' },
-  ]
-
-  const clothing = [
-    { name: 'cycling jacket', category: 'bikepacking' },
-    { name: 'cycling helmet', category: 'bikepacking' },
-    { name: 'mountaineering helmet', category: 'mountaineering' },
-    { name: 'rope', category: 'mountaineering' },
-  ]
-
-  const food = [
-    { name: '3 dehydrated meals', tripDuration: 2 },
-    { name: '3 breakfasts', tripDuration: 2 },
-    { name: '3 dinners', tripDuration: 2 },
-    { name: '120grams of coffee', tripDuration: 2 },
-    { name: '2 dehydrated meals', tripDuration: 1 },
-    { name: '2 breakfasts', tripDuration: 1 },
-    { name: '2 dinners', tripDuration: 1 },
-    { name: '80grams of coffee', tripDuration: 1 },
-  ]
 
   //FILTERED ITEMS
   let filteredGear = []
@@ -45,10 +26,12 @@ function App() {
   console.log('filteredClothing', filteredClothing)
 
   let filteredFood = []
+  let displayedDuration = ''
   let duration = 0
   if (startDate && endDate) {
     const timeDifference = endDate.getTime() - startDate.getTime()
     duration = Math.round(timeDifference / (1000 * 3600 * 24))
+    displayedDuration = 'duration: ' + duration + ' days'
     console.log('duration', duration)
 
     filteredFood = food.filter((i) => i.tripDuration === duration)
@@ -86,37 +69,11 @@ function App() {
                 <label>
                   <p>Im going to</p>
                   <select value={location} onChange={handleLocationChange}>
-                    <option value="Kaitaia">Kaitaia</option>
-                    <option value="Whangarei">Whangarei</option>
-                    <option value="Auckland">Auckland</option>
-                    <option value="Tauranga">Tauranga</option>
-                    <option value="Hamilton">Hamilton</option>
-                    <option value="Rotorua">Rotorua</option>
-                    <option value="Gisborne">Gisborne</option>
-                    <option value="Taupo">Taupo</option>
-                    <option value="New Plymouth">New Plymouth</option>
-                    <option value="Napier">Napier</option>
-                    <option value="Whanganui">Whanganui</option>
-                    <option value="Palmerston North">Palmerston North</option>
-                    <option value="Masterton">Masterton</option>
-                    <option value="Wellington">Wellington</option>
-                    <option value="Nelson">Nelson</option>
-                    <option value="Taranaki">Taranaki</option>
-                    <option value="Blenheim">Blenheim</option>
-                    <option value="Westport">Westport</option>
-                    <option value="Kaikoura">Kaikoura</option>
-                    <option value="Hokitika">Hokitika</option>
-                    <option value="Christchurch">Christchurch</option>
-                    <option value="Mt Cook">Mt Cook</option>
-                    <option value="Lake Tekapo">Lake Tekapo</option>
-                    <option value="Timaru">Timaru</option>
-                    <option value="Milford Sound">Milford Sound</option>
-                    <option value="Queenstown">Queenstown</option>
-                    <option value="Alexandra">Alexandra</option>
-                    <option value="Manapouri">Manapouri</option>
-                    <option value="Dunedin">Dunedin</option>
-                    <option value="Invercargill">Invercargill</option>
-                    <option value="Chatham Islands">Chatham Islands</option>
+                    {locationsArray.map((location, index) => (
+                      <option key={index} value={location.name}>
+                        {location.name}
+                      </option>
+                    ))}
                   </select>
                 </label>
               </div>
@@ -125,9 +82,11 @@ function App() {
                 <label>
                   <p>for a</p>
                   <select value={activity} onChange={handleActivityChange}>
-                    <option value="hiking">Hiking</option>
-                    <option value="bikepacking">Bikepacking</option>
-                    <option value="mountaineering">Mountaineering</option>
+                    {activitiesArray.map((activity, index) => (
+                      <option key={index} value={activity.name}>
+                        {activity.name}
+                      </option>
+                    ))}
                   </select>
                 </label>
                 <p>trip.</p>
@@ -160,8 +119,10 @@ function App() {
               <h1 className="h1-inter">
                 {location} {activity}
               </h1>
-              <h3>Average Temperature: 15°</h3>
-              <h3>Duration: {duration} days</h3>
+              <div className="temp-duration-container">
+                <h3>Average Temperature: 15°</h3>
+                <h3>{displayedDuration}</h3>
+              </div>
             </div>
             <div>
               <h3>Gear</h3>
