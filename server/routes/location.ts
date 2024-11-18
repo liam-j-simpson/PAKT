@@ -5,7 +5,7 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   try {
-    const location = await db.getLocationTemperatureData()
+    const location = await db.getLocationAverageTemp()
     console.log(location)
 
     res.json(location)

@@ -1,38 +1,16 @@
 import connection from './connection.ts'
-import { LocationTemperatureData } from '../../models/location.ts'
+import { LocationTemp } from '../../models/locationTemp.ts'
 
-export async function getLocationTemperatureData(): Promise<
-  LocationTemperatureData[]
-> {
+export async function getLocationAverageTemp(): Promise<LocationTemp[]> {
   const location = await connection('location')
-    .join(
-      'monthly_temperature',
-      'location.id',
-      'monthly_temperature.location_id',
-    )
+    .join('average_temp', 'location.id', 'average_temp.location_id')
     .select(
-      'monthly_temperature.id',
-      'monthly_temperature.location_id as locationId',
-      'monthly_temperature.month',
-      'monthly_temperature.average_temp as averageTemp',
+      'average_temp.id',
+      'average_temp.location_id as locationId',
+      'average_temp.month',
+      'average_temp.average_temp as averageTemp',
       'location.location_name as locationName',
     )
 
-  return location as LocationTemperatureData[]
+  return location as LocationTemp[]
 }
-
-// export async function getEventsByDay(day: number): Promise<Event[]> {
-//   const events = await connection('events')
-//     .join('locations', 'events.location_id', 'locations.id')
-//     .where('events.day', day)
-//     .select(
-//       'events.id',
-//       'events.day',
-//       'events.time',
-//       'events.name as eventName',
-//       'events.description',
-//       'locations.name as locationName',
-//     )
-
-//   return events
-// }

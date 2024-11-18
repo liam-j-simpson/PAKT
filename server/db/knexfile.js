@@ -14,6 +14,12 @@ export default {
     pool: {
       afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
     },
+    migrations: {
+      directory: Path.join(__dirname, 'migrations'),
+    },
+    seeds: {
+      directory: Path.join(__dirname, 'seeds'),
+    },
   },
 
   test: {

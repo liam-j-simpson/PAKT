@@ -1,7 +1,6 @@
 export async function seed(knex) {
   // Deletes ALL existing entries
-  await knex('location').del()
-  await knex('location').insert([
+  await knex('locations').insert([
     {
       id: 1,
       location_name: 'Kaitaia',
