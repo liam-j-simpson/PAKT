@@ -7,67 +7,71 @@ function App() {
   const [location, setLocation] = useState('')
   const [activity, setActivity] = useState('')
 
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
-  const [duration, setDuration] = useState('')
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
 
   //DERIVED STATES
   const gear = [
-    { item: 'bike', category: 'bikepacking' },
-    { item: 'pack', category: 'hiking' },
+    { name: 'bike', category: 'bikepacking' },
+    { name: 'pack', category: 'hiking' },
   ]
 
   const clothing = [
-    { item: 'cycling jacket', category: 'bikepacking' },
-    { item: 'cycling helmet', category: 'bikepacking' },
-    { item: 'mountaineering helmet', category: 'mountaineering' },
-    { item: 'rope', category: 'mountaineering' },
+    { name: 'cycling jacket', category: 'bikepacking' },
+    { name: 'cycling helmet', category: 'bikepacking' },
+    { name: 'mountaineering helmet', category: 'mountaineering' },
+    { name: 'rope', category: 'mountaineering' },
   ]
 
   const food = [
-    { item: '3 dehydrated meals', tripDuration: '2' },
-    { item: '3 breakfasts', tripDuration: '2' },
-    { item: '3 dinners', tripDuration: '2' },
-    { item: '120grams of coffee', tripDuration: '2' },
-    { item: '2 dehydrated meals', tripDuration: '1' },
-    { item: '2 breakfasts', tripDuration: '1' },
-    { item: '2 dinners', tripDuration: '1' },
-    { item: '80grams of coffee', tripDuration: '1' },
+    { name: '3 dehydrated meals', tripDuration: 2 },
+    { name: '3 breakfasts', tripDuration: 2 },
+    { name: '3 dinners', tripDuration: 2 },
+    { name: '120grams of coffee', tripDuration: 2 },
+    { name: '2 dehydrated meals', tripDuration: 1 },
+    { name: '2 breakfasts', tripDuration: 1 },
+    { name: '2 dinners', tripDuration: 1 },
+    { name: '80grams of coffee', tripDuration: 1 },
   ]
 
   //FILTERED ITEMS
-  const filteredGear = gear.filter((i) => i.category === activity)
-  console.log('filteredGear', filteredGear)
+  let filteredGear = []
+  if (activity) {
+    filteredGear = gear.filter((i) => i.category === activity)
+    console.log('filteredGear', filteredGear)
+  }
 
   const filteredClothing = clothing.filter((i) => i.category === activity)
   console.log('filteredClothing', filteredClothing)
 
-  const filteredFood = food.filter((i) => i.tripDuration === duration)
-  console.log('filteredFood', filteredFood)
+  let filteredFood = []
+  let duration = 0
+  if (startDate && endDate) {
+    const timeDifference = endDate.getTime() - startDate.getTime()
+    duration = Math.round(timeDifference / (1000 * 3600 * 24))
+    console.log('duration', duration)
+
+    filteredFood = food.filter((i) => i.tripDuration === duration)
+    console.log('filteredFood', filteredFood)
+  } else {
+    filteredFood = []
+  }
 
   // //EVENT HANDLERS
   const handleLocationChange = (e) => {
     setLocation(e.target.value)
-    console.log(location)
   }
 
   const handleActivityChange = (e) => {
     setActivity(e.target.value)
-    console.log(activity)
   }
 
   const handleStartDateChange = (newDate) => {
     setStartDate(newDate)
-    console.log(startDate)
   }
 
   const handleEndDateChange = (newDate) => {
     setEndDate(newDate)
-    console.log(endDate)
-    //Calculate duration of trip
-    const timeDifference = endDate.getTime() - startDate.getTime()
-    setDuration(Math.round(timeDifference / (1000 * 3600 * 24)))
-    console.log(duration)
   }
 
   return (
@@ -117,7 +121,19 @@ function App() {
                 </label>
               </div>
 
-              <p>from the</p>
+              <div>
+                <label>
+                  <p>for a</p>
+                  <select value={activity} onChange={handleActivityChange}>
+                    <option value="hiking">Hiking</option>
+                    <option value="bikepacking">Bikepacking</option>
+                    <option value="mountaineering">Mountaineering</option>
+                  </select>
+                </label>
+                <p>trip.</p>
+              </div>
+
+              <p>I'll be there from the</p>
               <DatePicker
                 placeholderText="Select start date"
                 selected={startDate}
@@ -137,18 +153,6 @@ function App() {
                 onChange={handleEndDateChange}
                 dateFormat="dd/MM/yyyy"
               />
-
-              <div>
-                <label>
-                  <p>for a</p>
-                  <select value={activity} onChange={handleActivityChange}>
-                    <option value="hiking">Hiking</option>
-                    <option value="bikepacking">Bikepacking</option>
-                    <option value="mountaineering">Mountaineering</option>
-                  </select>
-                </label>
-                <p>trip.</p>
-              </div>
             </form>
           </section>
           <section className="section-right">
@@ -162,25 +166,32 @@ function App() {
             <div>
               <h3>Gear</h3>
               <ul>
-                {filteredGear.map((item, index) => (
+                {filteredGear.length > 0 &&
+                  filteredGear.map((gear, index) => (
+                    <li key={index}>
+                      <p className="pill">{gear.name}</p>
+                    </li>
+                  ))}
+              </ul>
+
+              <h3>Clothing</h3>
+              <ul>
+                {filteredClothing.map((clothing, index) => (
                   <li key={index}>
-                    <p className="pill">{item}</p>
+                    <p className="pill">{clothing.name}</p>
                   </li>
                 ))}
               </ul>
 
-              <p className="pill">
-                Backpack, Stove, Tent, Sleeping Bag, Sleeping Mat, Headtorch
-              </p>
-              <h3>Clothing</h3>
-              <p className="pill">
-                Hat, Midlayer, Thermal Baselayer - Top, Thermal Baselayer -
-                Bottom, Shoes
-              </p>
               <h3>Food</h3>
-              <p className="pill">
-                Dehydrated Food, Breakfast, Coffee/Tea, Lunch, Water
-              </p>
+              <ul>
+                {filteredFood.length > 0 &&
+                  filteredFood.map((food, index) => (
+                    <li key={index}>
+                      <p className="pill">{food.name}</p>
+                    </li>
+                  ))}
+              </ul>
             </div>
           </section>
         </main>
