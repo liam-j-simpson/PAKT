@@ -19,23 +19,18 @@ function App() {
   let filteredGear = []
   if (activity) {
     filteredGear = gear.filter((i) => i.category === activity)
-    console.log('filteredGear', filteredGear)
   }
 
   const filteredClothing = clothing.filter((i) => i.category === activity)
-  console.log('filteredClothing', filteredClothing)
-
   let filteredFood = []
   let displayedDuration = ''
   let duration = 0
   if (startDate && endDate) {
     const timeDifference = endDate.getTime() - startDate.getTime()
     duration = Math.round(timeDifference / (1000 * 3600 * 24))
-    displayedDuration = 'duration: ' + duration + ' days'
-    console.log('duration', duration)
+    displayedDuration = 'duration: ' + duration + ' nights'
 
     filteredFood = food.filter((i) => i.tripDuration === duration)
-    console.log('filteredFood', filteredFood)
   } else {
     filteredFood = []
   }
@@ -56,6 +51,10 @@ function App() {
   const handleEndDateChange = (newDate) => {
     setEndDate(newDate)
   }
+
+  // function gearHeading(){
+  //   (if )
+  // }
 
   return (
     <>
@@ -114,47 +113,50 @@ function App() {
               />
             </form>
           </section>
-          <section className="section-right">
-            <div className="flex-container">
-              <h1 className="h1-inter">
-                {location} {activity}
-              </h1>
-              <div className="temp-duration-container">
-                <h3>Average Temperature: 15°</h3>
-                <h3>{displayedDuration}</h3>
+          {location && (
+            <section className="section-right">
+              <div className="flex-container">
+                {location && (
+                  <h1 className="h1-inter">
+                    {location} {activity} Trip
+                  </h1>
+                )}
+                <div className="temp-duration-container">
+                  {location && <h3>Average Temperature: 15°</h3>}
+                  <h3>{displayedDuration}</h3>
+                </div>
               </div>
-            </div>
-            <div>
-              <h3>Gear</h3>
-              <ul>
-                {filteredGear.length > 0 &&
-                  filteredGear.map((gear, index) => (
+              <div>
+                {filteredGear.length > 0 && <h3>Gear</h3>}
+                <ul>
+                  {filteredGear.length > 0 &&
+                    filteredGear.map((gear, index) => (
+                      <li key={index}>
+                        <p className="pill">{gear.name}</p>
+                      </li>
+                    ))}
+                </ul>
+                {filteredClothing.length > 0 && <h3>Clothing</h3>}
+
+                <ul>
+                  {filteredClothing.map((clothing, index) => (
                     <li key={index}>
-                      <p className="pill">{gear.name}</p>
+                      <p className="pill">{clothing.name}</p>
                     </li>
                   ))}
-              </ul>
-
-              <h3>Clothing</h3>
-              <ul>
-                {filteredClothing.map((clothing, index) => (
-                  <li key={index}>
-                    <p className="pill">{clothing.name}</p>
-                  </li>
-                ))}
-              </ul>
-
-              <h3>Food</h3>
-              <ul>
-                {filteredFood.length > 0 &&
-                  filteredFood.map((food, index) => (
-                    <li key={index}>
-                      <p className="pill">{food.name}</p>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </section>
+                </ul>
+                {filteredFood.length > 0 && <h3>Food</h3>}
+                <ul>
+                  {filteredFood.length > 0 &&
+                    filteredFood.map((food, index) => (
+                      <li key={index}>
+                        <p className="pill">{food.name}</p>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </section>
+          )}
         </main>
         <footer></footer>
       </div>
