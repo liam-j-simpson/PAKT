@@ -12,8 +12,8 @@ function App() {
   const [location, setLocation] = useState('')
   const [activity, setActivity] = useState('')
 
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
+  const [startDate, setStartDate] = useState<Date | undefined>()
+  const [endDate, setEndDate] = useState<Date | undefined>()
 
   //FILTERED ITEMS
   let filteredGear = []
@@ -22,6 +22,7 @@ function App() {
   }
 
   const filteredClothing = clothing.filter((i) => i.category === activity)
+
   let filteredFood = []
   let displayedDuration = ''
   let duration = 0
@@ -36,20 +37,24 @@ function App() {
   }
 
   // //EVENT HANDLERS
-  const handleLocationChange = (e) => {
+  const handleLocationChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e,
+  ) => {
     setLocation(e.target.value)
   }
 
-  const handleActivityChange = (e) => {
+  const handleActivityChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e,
+  ) => {
     setActivity(e.target.value)
   }
 
-  const handleStartDateChange = (newDate) => {
+  const handleStartDateChange = (newDate: React.SetStateAction<Date | undefined>) => {
     setStartDate(newDate)
   }
 
-  const handleEndDateChange = (newDate) => {
-    setEndDate(newDate)
+  const handleEndDateChange = (date: Date) => {
+    setEndDate(date)
   }
 
   // function gearHeading(){
@@ -91,7 +96,7 @@ function App() {
                 <p>trip.</p>
               </div>
 
-              <p>I'll be there from the</p>
+              <p>Ill be there from the</p>
               <DatePicker
                 placeholderText="Select start date"
                 selected={startDate}
@@ -139,11 +144,12 @@ function App() {
                 {filteredClothing.length > 0 && <h3>Clothing</h3>}
 
                 <ul>
-                  {filteredClothing.map((clothing, index) => (
-                    <li key={index}>
-                      <p className="pill">{clothing.name}</p>
-                    </li>
-                  ))}
+                  {filteredClothing.length > 0 &&
+                    filteredClothing.map((clothing, index) => (
+                      <li key={index}>
+                        <p className="pill">{clothing.name}</p>
+                      </li>
+                    ))}
                 </ul>
                 {filteredFood.length > 0 && <h3>Food</h3>}
                 <ul>
