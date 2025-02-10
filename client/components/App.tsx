@@ -49,7 +49,9 @@ function App() {
     setActivity(e.target.value)
   }
 
-  const handleStartDateChange = (newDate: React.SetStateAction<Date | undefined>) => {
+  const handleStartDateChange = (
+    newDate: React.SetStateAction<Date | undefined>,
+  ) => {
     setStartDate(newDate)
   }
 
@@ -71,7 +73,7 @@ function App() {
             <form>
               <div>
                 <label>
-                  <p>Im going to</p>
+                  <p>Im travelling to</p>
                   <select value={location} onChange={handleLocationChange}>
                     {locationsArray.map((location, index) => (
                       <option key={index} value={location.name}>
