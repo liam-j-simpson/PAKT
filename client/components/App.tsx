@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { locationsArray } from '../locations.ts'
 import { activitiesArray } from '../activities.ts'
 import { clothing } from '../clothing.ts'
-import { food } from './food.ts'
+import { food } from '../food.ts'
 import { gear } from '../gear.ts'
 
 function App() {
@@ -25,10 +25,10 @@ function App() {
 
   let filteredFood = []
   let displayedDuration = ''
-  let duration = 0
+
   if (startDate && endDate) {
     const timeDifference = endDate.getTime() - startDate.getTime()
-    duration = Math.round(timeDifference / (1000 * 3600 * 24))
+    const duration = Math.round(timeDifference / (1000 * 3600 * 24))
     displayedDuration = 'duration: ' + duration + ' nights'
 
     filteredFood = food.filter((i) => i.tripDuration === duration)
@@ -54,14 +54,9 @@ function App() {
   ) => {
     setStartDate(newDate)
   }
-
   const handleEndDateChange = (date: Date) => {
     setEndDate(date)
   }
-
-  // function gearHeading(){
-  //   (if )
-  // }
 
   return (
     <>
