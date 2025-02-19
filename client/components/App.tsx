@@ -61,37 +61,43 @@ function App() {
   return (
     <>
       <div>
-        <header className="header"></header>
-        <main className="flex-container">
-          <section className="section-left">
-            <h1 className="h1-modak">PAKT</h1>
-            <form>
+        <header className="place-items-center">
+          <h1 className="text-red-100">PAKT</h1>
+        </header>
+        <main>
+          <section className="bg-[#38473E] rounded-[5vw] place-items-center">
+            <form className="grid grid-cols-9">
+              <p>Im travelling to</p>
               <div>
-                <label>
-                  <p>Im travelling to</p>
-                  <select value={location} onChange={handleLocationChange}>
-                    {locationsArray.map((location, index) => (
-                      <option key={index} value={location.name}>
-                        {location.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                <select
+                  value={location}
+                  onChange={handleLocationChange}
+                  aria-label="location"
+                  className="rounded-full bg-[#FFCB10] text-[#38473E]"
+                >
+                  {locationsArray.map((location, index) => (
+                    <option key={index} value={location.name}>
+                      {location.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
+              <p>for a</p>
               <div>
-                <label>
-                  <p>for a</p>
-                  <select value={activity} onChange={handleActivityChange}>
-                    {activitiesArray.map((activity, index) => (
-                      <option key={index} value={activity.name}>
-                        {activity.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <p>trip.</p>
+                <select
+                  value={activity}
+                  onChange={handleActivityChange}
+                  className="rounded-full bg-[#FFCB10] text-[#38473E]"
+                >
+                  {activitiesArray.map((activity, index) => (
+                    <option key={index} value={activity.name}>
+                      {activity.name}
+                    </option>
+                  ))}
+                </select>
               </div>
+              <p>trip.</p>
 
               <p>Ill be there from the</p>
               <DatePicker
@@ -101,6 +107,7 @@ function App() {
                 onChange={handleStartDateChange}
                 dateFormat="dd/MM/yyyy"
                 startDate={startDate}
+                className="rounded-full bg-[#FFCB10] text-[#38473E]"
               />
               <p>to the</p>
               <DatePicker
@@ -112,48 +119,64 @@ function App() {
                 minDate={startDate}
                 onChange={handleEndDateChange}
                 dateFormat="dd/MM/yyyy"
+                className="rounded-full bg-[#FFCB10] text-[#38473E]"
               />
             </form>
           </section>
+
           {location && (
-            <section className="section-right">
-              <div className="flex-container">
+            <section className="bg-[#38473E] rounded-[5vw]">
+              <div className="flex">
                 {location && (
-                  <h1 className="h1-inter">
-                    {location} {activity} Trip
-                  </h1>
+                  <div className="justify-start">
+                    <p>
+                      {location} {activity} Trip
+                    </p>
+                  </div>
                 )}
-                <div className="temp-duration-container">
-                  {location && <h3>Average Temperature: 15°</h3>}
-                  <h3>{displayedDuration}</h3>
+
+                {location && (
+                  <div className="justify-end">
+                    <p> Average Temperature: 15°</p>
+                  </div>
+                )}
+                <div className="justify-end">
+                  <p>{displayedDuration}</p>
                 </div>
               </div>
+
               <div>
                 {filteredGear.length > 0 && <h3>Gear</h3>}
-                <ul>
+                <ul className="flex">
                   {filteredGear.length > 0 &&
                     filteredGear.map((gear, index) => (
                       <li key={index}>
-                        <p className="pill">{gear.name}</p>
+                        <p className="rounded-full bg-[#FFCB10] text-[#38473E]">
+                          {gear.name}
+                        </p>
                       </li>
                     ))}
                 </ul>
                 {filteredClothing.length > 0 && <h3>Clothing</h3>}
 
-                <ul>
+                <ul className="flex">
                   {filteredClothing.length > 0 &&
                     filteredClothing.map((clothing, index) => (
                       <li key={index}>
-                        <p className="pill">{clothing.name}</p>
+                        <p className="rounded-full bg-[#FFCB10] text-[#38473E]">
+                          {clothing.name}
+                        </p>
                       </li>
                     ))}
                 </ul>
                 {filteredFood.length > 0 && <h3>Food</h3>}
-                <ul>
+                <ul className="flex">
                   {filteredFood.length > 0 &&
                     filteredFood.map((food, index) => (
-                      <li key={index}>
-                        <p className="pill">{food.name}</p>
+                      <li className="pr-6" key={index}>
+                        <p className="rounded-full bg-[#FFCB10] text-[#38473E]">
+                          {food.name}
+                        </p>
                       </li>
                     ))}
                 </ul>
