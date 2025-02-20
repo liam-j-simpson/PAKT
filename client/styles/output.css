@@ -583,6 +583,10 @@ video {
   margin-bottom: 0.375rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -597,14 +601,6 @@ video {
 
 .mr-8 {
   margin-right: 2rem;
-}
-
-.mb-16 {
-  margin-bottom: 4rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
 }
 
 .flex {
@@ -649,8 +645,8 @@ video {
   padding: 2rem;
 }
 
-.p-16 {
-  padding: 4rem;
+.p-4 {
+  padding: 1rem;
 }
 
 .px-4 {
@@ -672,10 +668,6 @@ video {
 
 .pt-8 {
   padding-top: 2rem;
-}
-
-.pb-4 {
-  padding-bottom: 1rem;
 }
 
 .italic {
@@ -769,7 +761,6 @@ h4 {
   font-optical-sizing: auto;
   font-weight: 800;
   font-size: 1rem;
-  font-style: italic;
   color: #e7e9de;
 }
 
