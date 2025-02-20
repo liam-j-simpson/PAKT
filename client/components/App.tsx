@@ -82,7 +82,7 @@ function App() {
               value={location}
               onChange={handleLocationChange}
               aria-label="location"
-              className="bg-[#38473E] text-[#e7e9de] mr-8 italic"
+              className="bg-[#38473E] text-[#e7e9de] mr-8 mb-4 italic outline rounded-[20px]"
             >
               {locationsArray.map((location, index) => (
                 <option key={index} value={location.name}>
@@ -90,12 +90,12 @@ function App() {
                 </option>
               ))}
             </select>
-            <p className="mr-1">Activity:</p>
+            <p className="mr-1 mb-4">Activity:</p>
 
             <select
               value={activity}
               onChange={handleActivityChange}
-              className="bg-[#38473E] text-[#e7e9de] mr-8 italic"
+              className="bg-[#38473E] text-[#e7e9de] mr-8 italic outline rounded-[20px] mb-4"
             >
               {activitiesArray.map((activity, index) => (
                 <option key={index} value={activity.name}>
@@ -112,9 +112,9 @@ function App() {
               onChange={handleStartDateChange}
               dateFormat="dd/MM/yyyy"
               startDate={startDate}
-              className="bg-[#38473E] text-[#e7e9de] italic"
+              className="bg-[#38473E] text-[#e7e9de] italic outline rounded-[20px] mb-4"
             />
-            <p className="mr-2">to</p>
+            <p className="mr-2">-</p>
             <DatePicker
               placeholderText="Select end date"
               selected={endDate}
@@ -124,7 +124,7 @@ function App() {
               minDate={startDate}
               onChange={handleEndDateChange}
               dateFormat="dd/MM/yyyy"
-              className="bg-[#38473E] text-[#e7e9de] italic"
+              className="bg-[#38473E] text-[#e7e9de] italic outline rounded-[20px] mb-4"
             />
           </form>
         </div>
