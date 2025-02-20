@@ -29,8 +29,10 @@ function App() {
   if (startDate && endDate) {
     const timeDifference = endDate.getTime() - startDate.getTime()
     const duration = Math.round(timeDifference / (1000 * 3600 * 24))
-    displayedDuration = 'Duration: ' + duration + ' nights'
-
+    displayedDuration =
+      duration > 0
+        ? 'Duration: ' + duration + (duration > 1 ? ' nights' : ' night')
+        : 'Day trip'
     filteredFood = food.filter((i) => i.tripDuration === duration)
   } else {
     filteredFood = []
@@ -104,7 +106,7 @@ function App() {
               ))}
             </select>
 
-            <p className="mr-2">Duration:</p>
+            <p className="mr-2">Start Date:</p>
             <DatePicker
               placeholderText="Select start date"
               selected={startDate}
@@ -114,7 +116,7 @@ function App() {
               startDate={startDate}
               className="bg-[#38473E] text-[#e7e9de] outline rounded-[20px] mb-4"
             />
-            <p className="mr-2">-</p>
+            <p className="mr-2">End Date:</p>
             <DatePicker
               placeholderText="Select end date"
               selected={endDate}
