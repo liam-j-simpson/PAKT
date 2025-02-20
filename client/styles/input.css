@@ -7,48 +7,57 @@
   src: url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
 }
 @font-face {
-  font-family: 'Kadwa';
-  src: url('https://fonts.googleapis.com/css2?family=Kadwa&display=swap');
+  font-family: 'Inter';
+  src: url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,500&display=swap');
 }
 
 body {
   background-color: #495a4f;
 }
 
+/* PAKT HEADER */
 h1 {
   font-family: 'Modak', serif;
-  font-weight: 400;
+  font-weight: 500;
   font-style: normal;
   font-size: 6rem;
   color: #e7e9de;
 }
+
+/* Inter Header */
 h2 {
-  font-family: 'Modak', serif;
-  font-weight: 400;
-  font-style: normal;
+  font-family: 'Inter', serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
   font-size: 3rem;
+  font-style: normal;
   color: #e7e9de;
 }
+/* Inter Sub Header */
 h3 {
-  font-family: 'Kadwa', serif;
-  font-weight: 700;
+  font-family: 'Inter', serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-size: 1rem;
   font-style: normal;
-  font-size: 3rem;
   color: #e7e9de;
 }
+/* Italics Inter */
 h4 {
-  font-family: 'Kadwa', serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 2rem;
+  font-family: 'Inter', serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-size: 1rem;
+  font-style: italic;
   color: #e7e9de;
 }
 
 p {
-  font-family: 'Kadwa', serif;
-  font-weight: 700;
-  font-style: normal;
+  font-family: 'Inter', serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
   font-size: 1rem;
+  font-style: normal;
   color: #e7e9de;
 }
 
