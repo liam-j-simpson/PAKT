@@ -13,7 +13,7 @@
     "dev": "run-p dev:client dev:server tailwind:watch",
     "dev:client": "vite",
     "dev:server": "tsx watch server/index.ts",
-    "build": "run-s build:client build:server",
+    "build": "run-s build:client",
     "build:client": "vite build",
     "tailwind:watch": "tailwindcss -i ./client/styles/input.css -o ./client/styles/output.css --watch",
     "build:server": "esbuild --packages=external --platform=node --format=esm --outfile=dist/server.js --bundle server/index.ts",
