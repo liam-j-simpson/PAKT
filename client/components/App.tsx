@@ -63,7 +63,9 @@ function App() {
   return (
     <>
       <header className="pl-16">
-        <h1>PAKT</h1>
+        <h1 className="transition delay-150 duration-300 ease-in-out hover:blur-sm">
+          PAKT
+        </h1>
       </header>
       <main className="mx-8 mb-8">
         <div className="bg-[#38473E] rounded-[20px]">
