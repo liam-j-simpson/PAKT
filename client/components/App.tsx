@@ -7,6 +7,14 @@ import { clothing } from '../data/clothing.ts'
 import { food } from '../data/food.ts'
 import { gear } from '../data/gear.ts'
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
 function App() {
   //STATE
   const [location, setLocation] = useState('')
@@ -94,8 +102,8 @@ function App() {
                 </option>
               ))}
             </select>
-            <p className="mr-1 mb-4">Activity:</p>
 
+            <p className="mr-1 mb-4">Activity:</p>
             <select
               value={activity}
               onChange={handleActivityChange}
