@@ -11,44 +11,40 @@ import request from 'superagent'
 function App() {
   //STATE
   const [data, setData] = useState()
-
   const [location, setLocation] = useState('')
   const [activity, setActivity] = useState('')
   const [startDate, setStartDate] = useState<Date | undefined>()
   const [endDate, setEndDate] = useState<Date | undefined>()
-  const URL = `http://api.weatherapi.com/v1/future.json?key=26e378532cea480584f64853252102&q=${location}&dt=2025-03-27`
-  // date isn't returning in the correct format we need it to populate the url above (${startDate}) in yyyymmdd format.
+  const [duration, setDuration] = useState(0)
+
+  // WEATHER API CALL
+  const formattedDate = startDate?.toISOString().split('T')[0]
+  const URL = `http://api.weatherapi.com/v1/future.json?key=26e378532cea480584f64853252102&q=${location}&dt=${formattedDate}`
 
   useEffect(() => {
     const fetchData = async (URL: string) => {
       const response = await request.get(URL)
       setData(JSON.parse(response.text))
     }
-    fetchData(URL)
-  }, [location, URL, startDate])
+    location && formattedDate && fetchData(URL)
+  }, [location, URL, formattedDate])
+  // if start date is within 14 days the forecast api needs to be called instead of the future api
 
   //FILTERED ITEMS
-  let filteredGear = []
-  if (activity) {
-    filteredGear = gear.filter((i) => i.category === activity)
-  }
 
+  const filteredGear = gear.filter((i) => i.category === activity)
   const filteredClothing = clothing.filter((i) => i.category === activity)
+  const filteredFood = food.filter((i) => i.tripDuration === duration)
 
-  let filteredFood = []
-  let displayedDuration = ''
-
-  if (startDate && endDate) {
-    const timeDifference = endDate.getTime() - startDate.getTime()
-    const duration = Math.round(timeDifference / (1000 * 3600 * 24))
-    displayedDuration =
-      duration > 0
-        ? 'Duration: ' + duration + (duration > 1 ? ' nights' : ' night')
-        : 'Day trip'
-    filteredFood = food.filter((i) => i.tripDuration === duration)
-  } else {
-    filteredFood = []
-  }
+  useEffect(() => {
+    const duration = async () => {
+      const timeDifference =
+        endDate && startDate && endDate.getTime() - startDate.getTime()
+      timeDifference &&
+        setDuration(Math.round(timeDifference / (1000 * 3600 * 24)))
+    }
+    duration()
+  }, [endDate, startDate])
 
   // //EVENT HANDLERS
   const handleLocationChange: React.ChangeEventHandler<HTMLSelectElement> = (
@@ -57,9 +53,9 @@ function App() {
     setLocation(e.target.value)
   }
 
-  const handleActivityChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e,
-  ) => {
+  const handleActivityChange: React.ChangeEventHandler<
+    HTMLSelectElement
+  > = async (e) => {
     setActivity(e.target.value)
   }
 
@@ -67,7 +63,6 @@ function App() {
     newDate: React.SetStateAction<Date | undefined>,
   ) => {
     setStartDate(newDate)
-    console.log(startDate)
   }
   const handleEndDateChange = (date: Date) => {
     setEndDate(date)
@@ -162,10 +157,15 @@ function App() {
                     <div>
                       <p>
                         {data &&
-                          data.forecast &&
                           `Average Temperature: ${data.forecast.forecastday[0].day.avgtemp_c} °C`}
                       </p>
-                      <p>{displayedDuration}</p>
+                      <p>
+                        {duration > 0
+                          ? 'Duration: ' +
+                            duration +
+                            (duration > 1 ? ' nights' : ' night')
+                          : 'Day trip'}
+                      </p>
                     </div>
                   </div>
                 </>
