@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { locationsArray } from '../data/locations.ts'
@@ -6,22 +6,26 @@ import { activitiesArray } from '../data/activities.ts'
 import { clothing } from '../data/clothing.ts'
 import { food } from '../data/food.ts'
 import { gear } from '../data/gear.ts'
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import request from 'superagent'
 
 function App() {
   //STATE
+  const [data, setData] = useState()
+
   const [location, setLocation] = useState('')
   const [activity, setActivity] = useState('')
-
   const [startDate, setStartDate] = useState<Date | undefined>()
   const [endDate, setEndDate] = useState<Date | undefined>()
+  const URL = `http://api.weatherapi.com/v1/future.json?key=26e378532cea480584f64853252102&q=${location}&dt=2025-03-27`
+  // date isn't returning in the correct format we need it to populate the url above (${startDate}) in yyyymmdd format.
+
+  useEffect(() => {
+    const fetchData = async (URL: string) => {
+      const response = await request.get(URL)
+      setData(JSON.parse(response.text))
+    }
+    fetchData(URL)
+  }, [location, URL, startDate])
 
   //FILTERED ITEMS
   let filteredGear = []
@@ -63,6 +67,7 @@ function App() {
     newDate: React.SetStateAction<Date | undefined>,
   ) => {
     setStartDate(newDate)
+    console.log(startDate)
   }
   const handleEndDateChange = (date: Date) => {
     setEndDate(date)
@@ -86,6 +91,7 @@ function App() {
             Tell us about your trip below to get started.
           </p>
         </div>
+
         <div className="bg-[#38473E] rounded-[20px]">
           <form className="grid grid-cols-2 lg:grid-cols-4 p-8 mb-8">
             <p className="mr-1">Location:</p>
@@ -154,7 +160,11 @@ function App() {
                     </div>
 
                     <div>
-                      <p> Average Temperature: 15°</p>
+                      <p>
+                        {data &&
+                          data.forecast &&
+                          `Average Temperature: ${data.forecast.forecastday[0].day.avgtemp_c} °C`}
+                      </p>
                       <p>{displayedDuration}</p>
                     </div>
                   </div>
