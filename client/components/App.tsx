@@ -13,8 +13,8 @@ function App() {
   const [data, setData] = useState()
   const [location, setLocation] = useState('')
   const [activity, setActivity] = useState('')
-  const [startDate, setStartDate] = useState<Date | undefined>()
-  const [endDate, setEndDate] = useState<Date | undefined>()
+  const [startDate, setStartDate] = useState<Date | null>()
+  const [endDate, setEndDate] = useState<Date | null>()
   const [duration, setDuration] = useState(0)
 
   // WEATHER API CALL
@@ -57,15 +57,6 @@ function App() {
     HTMLSelectElement
   > = async (e) => {
     setActivity(e.target.value)
-  }
-
-  const handleStartDateChange = (
-    newDate: React.SetStateAction<Date | undefined>,
-  ) => {
-    setStartDate(newDate)
-  }
-  const handleEndDateChange = (date: Date) => {
-    setEndDate(date)
   }
 
   return (
@@ -122,9 +113,9 @@ function App() {
               placeholderText="Select start date"
               selected={startDate}
               selectsStart
-              onChange={handleStartDateChange}
+              onChange={(date: Date | null) => setStartDate(date)}
               dateFormat="dd/MM/yyyy"
-              startDate={startDate}
+              // startDate={startDate}
               className="bg-[#38473E] text-[#e7e9de] outline rounded-[20px] mb-4"
             />
             <p className="mr-2">End Date:</p>
@@ -133,9 +124,8 @@ function App() {
               selected={endDate}
               selectsEnd
               startDate={startDate}
-              endDate={endDate}
               minDate={startDate}
-              onChange={handleEndDateChange}
+              onChange={(date: Date | null) => setEndDate(date)}
               dateFormat="dd/MM/yyyy"
               className="bg-[#38473E] text-[#e7e9de] outline rounded-[20px] mb-4"
             />
