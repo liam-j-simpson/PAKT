@@ -1,7 +1,7 @@
 import { Activity } from 'models/models'
 import db from './connection'
 
-//GET ACTIVITY BY USERID
+//GET ACTIVITIES BY USERID
 export async function getActivities(userId: number) {
   try {
     const activities = await db('activity').where('user_id', userId).select()
