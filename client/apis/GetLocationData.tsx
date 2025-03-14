@@ -10,7 +10,7 @@ export function GetLocationData() {
     try {
       const key = process.env.WEATHER_API_URL
       const response = await request.get(
-        `http://api.weatherapi.com/v1/future.json?key=${key}&q=Tauranga&dt=2025-07-30`,
+        `https://api.weatherapi.com/v1/future.json?key=${key}&q=Tauranga&dt=2025-07-30`,
       )
 
       setData(response.body.forecast.forecastday[0].avgtemp_c)
