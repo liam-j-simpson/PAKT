@@ -9,31 +9,47 @@ import {
 const router = Router()
 
 //GET ACTIVITIES BY USERID
-router.get('/', async (req, res, next) => {
+router.get('/', async (_req, res, next) => {
   try {
-    const activities = await getActivities(userId)
+    const activities = await getActivities(1)
+    res.json({ activities })
   } catch (error) {
-    throw new Error()
+    next(error)
   }
 })
 
-//CREATE ACTIVITY
+//CREATE ACTIVITY BY USERID
 router.post('/', async (req, res, next) => {
   try {
-    const createdActivity = await createActivity(data)
-  } catch (error) {}
+    const data = req.body
+    await createActivity(data, 1)
+    res.sendStatus(201)
+  } catch (error) {
+    next(error)
+  }
 })
 
-//DELETE ACTIVITY BY USERID
+//DELETE ACTIVITY BY ACTIVITYID AND USERID
 router.patch('/:id', async (req, res, next) => {
   try {
-    const editedActivty = await editActivity(data, activityId)
-  } catch (error) {}
+    const activityId = Number(req.params.id)
+    const data = req.body
+    await editActivity(data, activityId, 1)
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
 })
 
-//EDIT ACTIVITY BY USERID
+//EDIT ACTIVITY BY ACTIVITYID AND USERID
 router.delete('/:id', async (req, res, next) => {
   try {
-    const deletedActivity = await deleteActivity(activityId)
-  } catch (error) {}
+    const activityId = Number(req.params.id)
+    await deleteActivity(activityId, 1)
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
 })
+
+export default router
