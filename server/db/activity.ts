@@ -14,9 +14,8 @@ export async function getActivities(userId: number) {
 }
 
 //CREATE ACTIVITY BY USERID (USERID HARD CODED UNTIL AUTHENTICATION IMPLEMENTED)
-export async function createActivity(data: Activity, userId: number) {
+export async function createActivity(name: string, userId: number) {
   try {
-    const { name } = data
     const createdActivity = await db('activity').insert({
       name,
       user_id: userId,
@@ -24,7 +23,7 @@ export async function createActivity(data: Activity, userId: number) {
     return createdActivity
   } catch (error) {
     throw new Error(
-      `Error adding activity with data: ${data}, associated to userId: ${userId}. ${error}.`,
+      `Error adding activity with data: ${name}, associated to userId: ${userId}. ${error}.`,
     )
   }
 }

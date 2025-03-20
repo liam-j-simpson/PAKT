@@ -21,8 +21,8 @@ router.get('/', async (_req, res, next) => {
 //CREATE ACTIVITY BY USERID
 router.post('/', async (req, res, next) => {
   try {
-    const data = req.body
-    await createActivity(data, 1)
+    const { name } = req.body
+    await createActivity(name, 1)
     res.sendStatus(201)
   } catch (error) {
     next(error)
