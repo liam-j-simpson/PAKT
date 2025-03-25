@@ -54,7 +54,7 @@ export function Gear() {
                     <>
                       <input
                         placeholder={element.name}
-                        className="placeholder-white bg-[#38473E] text-[#e7e9de] py-4"
+                        className="placeholder-white bg-[#38473E] text-[#e7e9de] "
                       ></input>
                       <button
                         className="text-[#e7e9de] mr-3"
@@ -75,11 +75,11 @@ export function Gear() {
             </ul>
             <form onSubmit={handleSubmit}>
               <input
-                className="placeholder-white bg-[#38473E] text-[#e7e9de] py-4"
+                className="placeholder-white bg-[#38473E] text-[#e7e9de] focus:outline-none focus:bg-[#495a4f] focus:shadow-lg focus:shadow-[#495a4f]"
                 placeholder="New Activity"
                 onChange={(e) => setActivityText(e.target.value)}
               ></input>
-              <button>Submit</button>
+              <button className="text-[#e7e9de] mr-3">Submit</button>
             </form>
           </div>
         </main>
