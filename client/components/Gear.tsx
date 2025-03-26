@@ -62,7 +62,7 @@ export function Gear() {
                   ) : (
                     <>
                       <input
-                        placeholder={element.name}
+                        defaultValue={element.name}
                         className="placeholder-white bg-[#38473E] text-[#e7e9de] "
                       ></input>
                       <button className="text-[#e7e9de] mr-3">Save</button>
