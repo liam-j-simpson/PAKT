@@ -2,25 +2,29 @@ import { Activity } from 'models/models'
 import { useGetActivity } from './hooks/useGetActivity'
 import { useState } from 'react'
 import { useCreateActivity } from './hooks/useCreateActivity'
+import { useDeleteActivity } from './hooks/useDeleteActivity'
 
 export function Gear() {
   const [activityText, setActivityText] = useState<string>()
   const { data, isPending, isError, error } = useGetActivity()
   const [edit, setEdit] = useState<number | null>()
   const createActivityMutation = useCreateActivity()
-  console.log(activityText)
+  const deleteActivityMutation = useDeleteActivity()
 
-  function handleEdit(index: number) {
-    setEdit(index)
+  function handleEdit(id: number) {
+    setEdit(id)
   }
 
   function handleSave(e) {}
 
-  function handleDelete(e) {}
+  function handleDelete(index: number) {
+    deleteActivityMutation.mutate(index)
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     createActivityMutation.mutate({ name: activityText })
+    setActivityText('')
   }
 
   if (isPending) {
@@ -38,17 +42,22 @@ export function Gear() {
             <ul>
               {data.map((element: Activity, index: number) => (
                 <>
-                  {index !== edit ? (
+                  {element.id !== edit ? (
                     <li key={index} className="flex">
                       <h2 className="mr-3">{element.name}</h2>
 
                       <button
                         className="text-[#e7e9de] mr-3"
-                        onClick={() => handleEdit(index)}
+                        onClick={() => handleEdit(element.id)}
                       >
                         Edit
                       </button>
-                      <button className="text-[#e7e9de] mr-3">Delete</button>
+                      <button
+                        className="text-[#e7e9de] mr-3"
+                        onClick={() => handleDelete(element.id)}
+                      >
+                        Delete
+                      </button>
                     </li>
                   ) : (
                     <>
@@ -56,15 +65,10 @@ export function Gear() {
                         placeholder={element.name}
                         className="placeholder-white bg-[#38473E] text-[#e7e9de] "
                       ></input>
+                      <button className="text-[#e7e9de] mr-3">Save</button>
                       <button
                         className="text-[#e7e9de] mr-3"
-                        onClick={handleSave()}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="text-[#e7e9de] mr-3"
-                        onClick={handleDelete()}
+                        onClick={() => handleDelete(element.id)}
                       >
                         Delete
                       </button>
@@ -77,6 +81,7 @@ export function Gear() {
               <input
                 className="placeholder-white bg-[#38473E] text-[#e7e9de] focus:outline-none focus:bg-[#495a4f] focus:shadow-lg focus:shadow-[#495a4f]"
                 placeholder="New Activity"
+                value={activityText}
                 onChange={(e) => setActivityText(e.target.value)}
               ></input>
               <button className="text-[#e7e9de] mr-3">Submit</button>

@@ -4,7 +4,7 @@ import { createActivity } from '../api'
 export function useCreateActivity() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (name: string) => {
+    mutationFn: async (name: { name: string | undefined }) => {
       return await createActivity(name)
     },
     onSuccess: () => {

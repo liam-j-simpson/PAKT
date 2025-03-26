@@ -9,7 +9,7 @@ export async function getActivity() {
   }
 }
 
-export async function createActivity(data: string) {
+export async function createActivity(data: { name: string | undefined }) {
   try {
     const res = await request.post('/api/v1/activities').send(data)
     return res.body
