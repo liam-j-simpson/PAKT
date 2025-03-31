@@ -29,19 +29,20 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-//DELETE ACTIVITY BY ACTIVITYID AND USERID
+//PATCH ACTIVITY BY ACTIVITYID AND USERID
 router.patch('/:id', async (req, res, next) => {
   try {
     const activityId = Number(req.params.id)
-    const data = req.body
-    await editActivity(data, activityId, 1)
+    const name = req.body
+
+    await editActivity(name, activityId, 1)
     res.sendStatus(200)
   } catch (error) {
     next(error)
   }
 })
 
-//EDIT ACTIVITY BY ACTIVITYID AND USERID
+//DELETE ACTIVITY BY ACTIVITYID AND USERID
 router.delete('/:id', async (req, res, next) => {
   try {
     const activityId = Number(req.params.id)

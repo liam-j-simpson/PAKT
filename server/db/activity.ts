@@ -42,14 +42,15 @@ export async function deleteActivity(activityId: number, userId: number) {
 
 //EDIT ACTIVITY BY ACTIVITYID AND USERID (USERID HARD CODED UNTIL AUTHENTICATION IMPLEMENTED)
 export async function editActivity(
-  data: Activity,
+  name: Activity,
   activityId: number,
   userId: number,
 ) {
   try {
+    console.log(name, activityId, userId)
     const editedActivty = await db('activity')
       .where({ id: activityId, user_id: userId })
-      .update(data)
+      .update(name)
     return editedActivty
   } catch (error) {
     throw new Error(`Error editing activity: ${activityId}`)
