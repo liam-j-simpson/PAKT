@@ -3,19 +3,26 @@ import { useGetActivity } from './hooks/useGetActivity'
 import { useState } from 'react'
 import { useCreateActivity } from './hooks/useCreateActivity'
 import { useDeleteActivity } from './hooks/useDeleteActivity'
+import { useEditActivity } from './hooks/useEditActivity'
+import React from 'react'
 
 export function Gear() {
-  const [activityText, setActivityText] = useState<string>()
-  const { data, isPending, isError, error } = useGetActivity()
   const [edit, setEdit] = useState<number | null>()
+  const [activityText, setActivityText] = useState<string>('')
+  const [editActivityText, setEditActivityText] = useState<string>('')
+
+  const { data, isPending, isError, error } = useGetActivity()
   const createActivityMutation = useCreateActivity()
   const deleteActivityMutation = useDeleteActivity()
+  const editActivityMutation = useEditActivity()
 
-  function handleEdit(id: number) {
-    setEdit(id)
+  function handleEdit(id: number, data: string) {
+    setEdit(null)
+    if (editActivityText != '') {
+      editActivityMutation.mutate({ id, data })
+      setEditActivityText('')
+    }
   }
-
-  function handleSave(e) {}
 
   function handleDelete(index: number) {
     deleteActivityMutation.mutate(index)
@@ -38,17 +45,17 @@ export function Gear() {
       <>
         <main className="mx-8 mb-8">
           <div className="p-8 mb-8  bg-[#38473E] rounded-[20px]">
-            <p className="text-[#e7e9de]">Optimse your gear lists.</p>
+            <p className="text-[#e7e9de]">Optimise your gear lists.</p>
             <ul>
               {data.map((element: Activity, index: number) => (
-                <>
+                <React.Fragment key={element.id}>
                   {element.id !== edit ? (
                     <li key={index} className="flex">
                       <h2 className="mr-3">{element.name}</h2>
 
                       <button
                         className="text-[#e7e9de] mr-3"
-                        onClick={() => handleEdit(element.id)}
+                        onClick={() => setEdit(element.id)}
                       >
                         Edit
                       </button>
@@ -61,22 +68,34 @@ export function Gear() {
                     </li>
                   ) : (
                     <>
-                      <input
-                        defaultValue={element.name}
-                        className="placeholder-white bg-[#38473E] text-[#e7e9de] "
-                      ></input>
-                      <button className="text-[#e7e9de] mr-3">Save</button>
-                      <button
-                        className="text-[#e7e9de] mr-3"
-                        onClick={() => handleDelete(element.id)}
-                      >
-                        Delete
-                      </button>
+                      <li key={index} className="flex">
+                        <input
+                          defaultValue={element.name}
+                          className="placeholder-white bg-[#38473E] text-[#e7e9de]"
+                          onChange={(e) => setEditActivityText(e.target.value)}
+                        ></input>
+                        <button
+                          className="text-[#e7e9de] mr-3"
+                          onClick={() =>
+                            handleEdit(element.id, editActivityText)
+                          }
+                        >
+                          Save
+                        </button>
+
+                        <button
+                          className="text-[#e7e9de] mr-3"
+                          onClick={() => handleDelete(element.id)}
+                        >
+                          Delete
+                        </button>
+                      </li>
                     </>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </ul>
+
             <form onSubmit={handleSubmit}>
               <input
                 className="placeholder-white bg-[#38473E] text-[#e7e9de] focus:outline-none focus:bg-[#495a4f] focus:shadow-lg focus:shadow-[#495a4f]"

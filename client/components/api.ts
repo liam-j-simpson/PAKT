@@ -27,9 +27,9 @@ export async function deleteActivity(id: number) {
   }
 }
 
-export async function editActivity(id: number, data: string) {
+export async function editActivity(id: number, name: string) {
   try {
-    const res = await request.patch(`/api/v1/activities/${id}`).send({ data })
+    const res = await request.patch(`/api/v1/activities/${id}`).send({ name })
     return res.body
   } catch (error) {
     console.error(error)
