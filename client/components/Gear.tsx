@@ -16,7 +16,12 @@ export function Gear() {
   const deleteActivityMutation = useDeleteActivity()
   const editActivityMutation = useEditActivity()
 
-  function handleEdit(id: number, data: string) {
+  function handleEdit(
+    e: React.FormEvent<HTMLFormElement>,
+    id: number,
+    data: string,
+  ) {
+    e.preventDefault()
     setEdit(null)
     if (editActivityText != '') {
       editActivityMutation.mutate({ id, data })
@@ -48,9 +53,9 @@ export function Gear() {
             <p className="text-[#e7e9de]">Optimise your gear lists.</p>
             <ul>
               {data.map((element: Activity, index: number) => (
-                <React.Fragment key={element.id}>
+                <li key={index}>
                   {element.id !== edit ? (
-                    <li key={index} className="flex">
+                    <>
                       <h2 className="mr-3">{element.name}</h2>
 
                       <button
@@ -65,23 +70,20 @@ export function Gear() {
                       >
                         Delete
                       </button>
-                    </li>
+                    </>
                   ) : (
                     <>
-                      <li key={index} className="flex">
+                      <form
+                        onSubmit={(e) =>
+                          handleEdit(e, element.id, editActivityText)
+                        }
+                      >
                         <input
                           defaultValue={element.name}
                           className="placeholder-white bg-[#38473E] text-[#e7e9de]"
                           onChange={(e) => setEditActivityText(e.target.value)}
                         ></input>
-                        <button
-                          className="text-[#e7e9de] mr-3"
-                          onClick={() =>
-                            handleEdit(element.id, editActivityText)
-                          }
-                        >
-                          Save
-                        </button>
+                        <button className="text-[#e7e9de] mr-3">Save</button>
 
                         <button
                           className="text-[#e7e9de] mr-3"
@@ -89,10 +91,10 @@ export function Gear() {
                         >
                           Delete
                         </button>
-                      </li>
+                      </form>
                     </>
                   )}
-                </React.Fragment>
+                </li>
               ))}
             </ul>
 
