@@ -47,7 +47,6 @@ export async function editActivity(
   userId: number,
 ) {
   try {
-    console.log(name, activityId, userId)
     const editedActivty = await db('activity')
       .where({ id: activityId, user_id: userId })
       .update(name)
